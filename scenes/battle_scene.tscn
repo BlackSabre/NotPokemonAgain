@@ -1,0 +1,121 @@
+[gd_scene load_steps=7 format=3 uid="uid://dscmflwv60p3j"]
+
+[ext_resource type="Script" path="res://scenes/battle_scene.gd" id="1_5vc4i"]
+[ext_resource type="Script" path="res://scenes/UI.gd" id="2_a2556"]
+[ext_resource type="Texture2D" uid="uid://bkmxhi65aub2v" path="res://art_assets/ui/panels/BattlePanel.png" id="2_ksjgo"]
+[ext_resource type="Theme" uid="uid://oycg6p0wdu45" path="res://themes/test_theme.tres" id="3_0lh85"]
+[ext_resource type="PackedScene" uid="uid://du102hktb3db8" path="res://scenes/ui/health_bar.tscn" id="5_452y3"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mgp02"]
+texture = ExtResource("2_ksjgo")
+texture_margin_left = 5.0
+texture_margin_top = 5.0
+texture_margin_right = 5.0
+texture_margin_bottom = 5.0
+
+[node name="BattleScene" type="Node2D"]
+position = Vector2(58, 45)
+script = ExtResource("1_5vc4i")
+
+[node name="Background" type="CanvasLayer" parent="."]
+
+[node name="BackgroundColour" type="ColorRect" parent="Background"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.176471, 0.176471, 0.176471, 1)
+
+[node name="UI" type="CanvasLayer" parent="."]
+script = ExtResource("2_a2556")
+
+[node name="PlayerDialogAndOptions" type="Panel" parent="UI"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -224.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxTexture_mgp02")
+
+[node name="AttackButton" type="Button" parent="UI/PlayerDialogAndOptions"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 5.0
+offset_top = -219.0
+offset_right = 213.0
+offset_bottom = -137.0
+grow_vertical = 0
+theme = ExtResource("3_0lh85")
+text = "ATTACK"
+
+[node name="Button2" type="Button" parent="UI/PlayerDialogAndOptions"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 26.0
+offset_top = -119.0
+offset_right = 234.0
+offset_bottom = -37.0
+grow_vertical = 0
+theme = ExtResource("3_0lh85")
+theme_override_font_sizes/font_size = 20
+
+[node name="Button3" type="Button" parent="UI/PlayerDialogAndOptions"]
+layout_mode = 0
+offset_left = 290.0
+offset_top = 46.0
+offset_right = 495.0
+offset_bottom = 211.0
+
+[node name="PlayerSprite" type="ColorRect" parent="UI/PlayerDialogAndOptions"]
+layout_mode = 0
+offset_left = 113.0
+offset_top = -203.0
+offset_right = 315.0
+offset_bottom = -1.0
+color = Color(0, 0.341176, 0.345098, 1)
+
+[node name="EnemySprite" type="ColorRect" parent="UI/PlayerDialogAndOptions"]
+layout_mode = 0
+offset_left = 900.0
+offset_top = -369.0
+offset_right = 1102.0
+offset_bottom = -167.0
+color = Color(0.423529, 0.423529, 0.423529, 1)
+
+[node name="HealthBarEnemy" parent="UI" instance=ExtResource("5_452y3")]
+anchors_preset = -1
+anchor_top = -0.00154321
+anchor_right = 0.0260417
+anchor_bottom = -0.00154321
+offset_left = 58.0
+offset_top = 45.0
+offset_right = 144.0
+offset_bottom = 62.0
+value = 10.0
+tint_progress = Color(0, 0.678431, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="HealthBarPlayer" parent="UI" instance=ExtResource("5_452y3")]
+anchors_preset = -1
+anchor_top = -0.00154321
+anchor_right = 0.0260417
+anchor_bottom = -0.00154321
+offset_left = 1089.0
+offset_top = 360.0
+offset_right = 1175.0
+offset_bottom = 377.0
+scale = Vector2(-2.5, 2.5)
+value = 10.0
+tint_progress = Color(0, 0.678431, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[connection signal="on_enemy_health_changed" from="." to="UI/HealthBarEnemy" method="_on_battle_scene_on_enemy_health_changed"]
+[connection signal="pressed" from="UI/PlayerDialogAndOptions/AttackButton" to="." method="_on_attack_button_pressed"]
+[connection signal="pressed" from="UI/PlayerDialogAndOptions/Button2" to="UI/PlayerDialogAndOptions/Button2" method="_on_pressed"]

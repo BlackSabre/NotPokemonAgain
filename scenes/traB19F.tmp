@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://b8bwq7jfe0ol4"]
+
+[ext_resource type="Script" path="res://scenes/transition_zone.gd" id="1_y6n1e"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7vgoy"]
+size = Vector2(64, 64)
+
+[node name="TransitionZone" type="Area2D" groups=["TransitionZone"]]
+script = ExtResource("1_y6n1e")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_7vgoy")
+
+[node name="SpawnPosition" type="Marker2D" parent="."]
+position = Vector2(0, -40)

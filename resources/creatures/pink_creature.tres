@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="CreatureBase" load_steps=3 format=3 uid="uid://cv7ipjvihadhu"]
+
+[ext_resource type="Script" path="res://scripts/creature_base.gd" id="1_asqxp"]
+[ext_resource type="Texture2D" uid="uid://dbf2jje7ohamm" path="res://art_assets/creatures/square_pink.png" id="1_c6ul5"]
+
+[resource]
+script = ExtResource("1_asqxp")
+id = "0001"
+name = "Pinkman"
+nickname = "Pinky"
+front_sprite = ExtResource("1_c6ul5")
+base_attack = 2
+base_health = 100
+level = 1
