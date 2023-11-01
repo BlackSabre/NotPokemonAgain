@@ -9,7 +9,7 @@ var is_saving: bool = false
 var is_loading: bool = false
 
 func save_game() -> bool:
-	print("saving game")
+	print_debug("saving game")
 	if is_loading == true:
 		printerr("Game is currently loading. Cannot save game.")
 		return false
@@ -40,13 +40,13 @@ func save_game() -> bool:
 	
 	save_game_file.close()
 	is_saving = false
-	print("Game successfully finished saving")	
+	print_debug("Game successfully finished saving")	
 	return true
 
 
 func load_game():
 	# load save file and check for errors
-	print("loading game")
+	print_debug("loading game")
 	
 	if is_saving == true:
 		printerr("Game is currently saving. Cannot load game.")
@@ -73,13 +73,13 @@ func load_game():
 	
 	var save_data_dict: Dictionary = json_data.get_data()
 	
-	#print("save_data: ", save_data_dict)
+	#print_debug("save_data: ", save_data_dict)
 	
 	# put all values in save_data in data dictionary	
 #	var data_dict: Dictionary
 #
 #	for data in save_data_dict:
-#		print("data loading: ", data)
+#		print_debug("data loading: ", data)
 		#data_dict.merge(data)
 		
 	# load scene first
@@ -87,7 +87,7 @@ func load_game():
 	
 	if save_data_dict.has("last_loaded_scene"):
 		var scene_path = save_data_dict["last_loaded_scene"]
-		print("scene_path: ", scene_path)
+		print_debug("scene_path: ", scene_path)
 		load_scene = load(scene_path)
 	else:
 		printerr("No scene found in save file.")	
@@ -111,7 +111,7 @@ func add_currently_loaded_scene(game_data_dict: Dictionary) -> Dictionary:
 	var last_loaded_scene_dict = { "last_loaded_scene": last_loaded_scene_path }
 	game_data_dict.merge(last_loaded_scene_dict)
 	
-	print("Scene path successfully added. Scene path: ", last_loaded_scene_path)
+	print_debug("Scene path successfully added. Scene path: ", last_loaded_scene_path)
 		
 	return game_data_dict
 
@@ -126,7 +126,7 @@ func add_all_save_nodes(game_data: Dictionary) -> Dictionary:
 	
 	# no nodes. Return false
 	if save_node_array.is_empty():
-		print("No nodes to save")
+		print_debug("No nodes to save")
 	
 	# call capture_node_data in each node in save group and add it to game_data
 	for save_node in save_node_array:
@@ -141,7 +141,7 @@ func add_all_save_nodes(game_data: Dictionary) -> Dictionary:
 		var node_data_dict: Dictionary
 		node_data_dict[save_node.get_object_save_id()] = save_node.capture_node_data()
 		
-		#print("node_data_dict: ", node_data_dict)
+		#print_debug("node_data_dict: ", node_data_dict)
 		
 		game_data.merge(node_data_dict)
 	
@@ -166,7 +166,7 @@ func load_scene_objects(data_dict: Dictionary):
 			node_save_id = node.get_object_save_id()
 		
 		if node_save_id == "" || node_save_id == null:
-			print("No save id found for: ", node.name)
+			print_debug("No save id found for: ", node.name)
 			continue
 			
 		if "restore_node_data" in node:
@@ -174,7 +174,7 @@ func load_scene_objects(data_dict: Dictionary):
 				node.restore_node_data(data_dict[node_save_id])	
 	
 	is_loading = false
-	print("Game successfully finished loading")	
+	print_debug("Game successfully finished loading")	
 
 # Validates the path at base_directory/directory. If directory does not exist, then this also 
 # attempts to create it.
@@ -183,7 +183,7 @@ func check_and_create_directory_for_save(base_directory: String, directory: Stri
 	var dir_access = DirAccess.open(directory)	
 	
 	if (dir_access == null):
-		print("Directory '", directory, "' does not exist. Attempting to create...")		
+		print_debug("Directory '", directory, "' does not exist. Attempting to create...")		
 		dir_access = DirAccess.open(base_directory)
 		
 		if (dir_access == null):

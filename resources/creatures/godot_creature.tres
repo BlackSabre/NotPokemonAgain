@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="CreatureBase" load_steps=7 format=3 uid="uid://oikys01e0c1a"]
+
+[ext_resource type="Script" path="res://scripts/creature_base.gd" id="1_1a823"]
+[ext_resource type="Texture2D" uid="uid://beppp3gd0p8yn" path="res://icon.svg" id="1_hawy2"]
+[ext_resource type="Script" path="res://resources/level_range.gd" id="2_jly5m"]
+[ext_resource type="Script" path="res://resources/route_and_level_range.gd" id="3_ynf2q"]
+
+[sub_resource type="Resource" id="Resource_e7ea8"]
+script = ExtResource("2_jly5m")
+min_level = 40
+max_level = 60
+
+[sub_resource type="Resource" id="Resource_glrcc"]
+script = ExtResource("3_ynf2q")
+route = 1
+level_range = SubResource("Resource_e7ea8")
+
+[resource]
+script = ExtResource("1_1a823")
+id = "0003"
+in_game_id = "003"
+name = "Godotmon"
+nickname = ""
+front_sprite = ExtResource("1_hawy2")
+base_attack = 100
+base_health = 2000
+level = 55
+route_locations = Array[ExtResource("3_ynf2q")]([SubResource("Resource_glrcc")])

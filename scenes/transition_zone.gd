@@ -8,14 +8,14 @@ extends Area2D
 @onready var spawn_position: Vector2 = $SpawnPosition.global_position
 
 func _ready():
-	print("This zones position is: ", spawn_position)
+	#print_debug("This zones position is: ", spawn_position)
+	pass
 
 func _on_body_entered(body):
 	if body is Player:
-		print("Load new scene")
+		print_debug("Load new scene")
 	
 		PlayerData.zone_to_spawn_in = next_zone
-		PlayerData.load_in_zone = true
-		#SceneLoader.load_world_scene_from_packed_scene(scene_to_load)
+		PlayerData.load_in_zone = true		
 		SceneLoader.load_world_scene_from_path(scene_to_load_path)
 

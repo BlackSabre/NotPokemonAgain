@@ -11,7 +11,6 @@ var player_spawn_zone: ZoneEnums.Zone
 var tall_grass_tiles : Array
 
 func _ready():
-	BattleHandler.GetRandomEnemyCreature()	
 	tall_grass_tiles = get_tree().get_nodes_in_group("Tall Grass")	
 	
 	for tile in tall_grass_tiles:
@@ -29,24 +28,25 @@ func _process(_delta):
 		handle_left_mouse_click()
 
 
-func _on_player_entered_tall_grass():
+func _on_player_entered_tall_grass(route: Routes.Route):
 	var percent = randf()
 	if percent <= (percent_chance_random_encounter / 100):
 		#player.set_physics_process(false)
 		screen_effects.fade(true)
+		BattleSetupHandler.start_random_encounter(route)		
 
 
 func handle_left_mouse_click():
 	var path = get_tree().current_scene.scene_file_path
-	print("Path: ", path)
-	pass
+	print_debug("Path: ", path)
+
 
 func load_battle_scene():
 	pass
 
 
 func _on_ready():
-	#print("parent node ready. Moving player to zone: ", PlayerData.zone_to_spawn_in)
+	#print_debug("parent node ready. Moving player to zone: ", PlayerData.zone_to_spawn_in)
 	pass
 
 func spawn_player_in_zone() -> void:

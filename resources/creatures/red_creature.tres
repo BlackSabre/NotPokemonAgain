@@ -1,14 +1,28 @@
-[gd_resource type="Resource" script_class="CreatureBase" load_steps=3 format=3 uid="uid://du66kc6paenfd"]
+[gd_resource type="Resource" script_class="CreatureBase" load_steps=7 format=3 uid="uid://du66kc6paenfd"]
 
 [ext_resource type="Script" path="res://scripts/creature_base.gd" id="1_nwo6v"]
 [ext_resource type="Texture2D" uid="uid://b588w1choqlb2" path="res://art_assets/creatures/square_red.png" id="1_uf54k"]
+[ext_resource type="Script" path="res://resources/level_range.gd" id="2_gmrsi"]
+[ext_resource type="Script" path="res://resources/route_and_level_range.gd" id="3_s17ep"]
+
+[sub_resource type="Resource" id="Resource_emmqw"]
+script = ExtResource("2_gmrsi")
+min_level = 0
+max_level = 5
+
+[sub_resource type="Resource" id="Resource_pq47f"]
+script = ExtResource("3_s17ep")
+route = 1
+level_range = SubResource("Resource_emmqw")
 
 [resource]
 script = ExtResource("1_nwo6v")
 id = "0002"
+in_game_id = "002"
 name = "Redman"
 nickname = "Angred"
 front_sprite = ExtResource("1_uf54k")
 base_attack = 4
 base_health = 200
 level = 3
+route_locations = Array[ExtResource("3_s17ep")]([SubResource("Resource_pq47f")])

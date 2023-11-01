@@ -17,7 +17,7 @@ func get_enum_from_string(property: String) -> GroupEnum:
 		"TransitionZone":
 			return GroupEnum.TRANSITION_ZONE
 	
-	print("Property ", property, " does not exist in group enum")
+	print_debug("Property ", property, " does not exist in group enum")
 	return GroupEnum.UNKNOWN
 
 

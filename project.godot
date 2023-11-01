@@ -17,15 +17,15 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+AllCreatures="*res://scripts/all_creatures.gd"
 PlayerData="*res://scripts/player_data.gd"
-BattleHandler="*res://scripts/battle_handler.gd"
+BattleSetupHandler="*res://scripts/battle_setup_handler.gd"
 BattleSceneController="*res://scripts/battle_scene_controller.gd"
 Testing="*res://scripts/testing.gd"
 SaveHandler="*res://scripts/save_handler.gd"
 WorldScenes="*res://scripts/world_scenes.gd"
 SceneLoader="*res://scripts/scene_loader.gd"
 Groups="*res://scripts/groups.gd"
-Guids="*res://scripts/guids.gd"
 
 [display]
 

@@ -19,7 +19,7 @@ func _ready():
 	
 	#for debugging & dev
 	if available_creatures.is_empty():
-		print("Adding temp creatures")
+		print_debug("Adding temp creatures")
 		available_creatures.append(tempCreature1)
 		available_creatures.append(tempCreature2)
 	
@@ -49,37 +49,44 @@ func capture_node_data():
 		index_of_creature += 1
 		var creature_data_dict: Dictionary = {
 			name = creature.name,
+			nickname = creature.nickname,
+			front_sprite = creature.front_sprite.resource_path,
+			base_attack = creature.base_attack,
+			base_health = creature.base_health,
+			level = creature.level,
 			slot_index = index_of_creature
 		}
 		
 	
-		#print("creature_data_dict: ", creature_data_dict)
+		#print_debug("creature_data_dict: ", creature_data_dict)
 		available_creatures_dict[creature.id] = creature_data_dict	
 		
 	save_data_dictionary["available_creatures"] = available_creatures_dict
-	#print("save_data_dictionary: ", save_data_dictionary)
+	#print_debug("save_data_dictionary: ", save_data_dictionary)
 	
 	return save_data_dictionary
 
 
 func restore_node_data(data: Dictionary):
-	#print("player_data: ", data)
+	#print_debug("player_data: ", data)
 	var player_name_data = data["player_name"]
 	var creature_data: Dictionary = data["available_creatures"]
-	print("player_name: ", player_name_data)	
-	print("creature_data retrieved: ", creature_data)	
+	#print_debug("player_name: ", player_name_data)	
+	#print_debug("creature_data retrieved: ", creature_data)
 	
-	for creature_key in creature_data.keys():
-		
+	for creature_key in creature_data.keys():		
 		var loaded_creature: Dictionary = creature_data[creature_key]
-		print("loaded_creature: ", loaded_creature)
+		#print_debug("loaded_creature: ", loaded_creature)
 		var creature: CreatureBase = CreatureBase.new()
-		creature.id = creature_key
-		print("creature_id = ", creature_key)
-		creature.name = loaded_creature["name"]
-		print("creature name = ", loaded_creature["name"])
 		var slot_index: int = loaded_creature["slot_index"]
-		print("slot_index = ", slot_index)
+		
+		creature.id = creature_key
+		creature.name = loaded_creature["name"]
+		creature.nickname = loaded_creature["nickname"]
+		creature.front_sprite = load(loaded_creature["front_sprite"])
+		creature.base_attack = loaded_creature["base_attack"]
+		creature.base_health = loaded_creature["base_health"]
+		creature.level = loaded_creature["level"]		
 		available_creatures[slot_index] = creature
 
 

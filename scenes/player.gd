@@ -8,11 +8,13 @@ const SPEED = 190.0
 
 func _ready():
 	enable_camera_smoothing()
+	set_physics_process(true)
 
 func _process(_delta):
 	if (Input.is_physical_key_pressed(KEY_Q)):
-		var creature = PlayerData.get_creature_at_index(1)
-		print(creature.name)
+		pass
+		#var creature = PlayerData.get_creature_at_index(1)
+		#print_debug(creature.name)
 	
 	if (Input.is_action_just_pressed("save_temp")):
 		SaveHandler.save_game()
@@ -54,7 +56,7 @@ func capture_node_data():
 
 
 func restore_node_data(data: Dictionary):
-	#print("player: ", data)
+	#print_debug("player: ", data)
 	for key in data.keys():
 		self.set(key, str_to_var(data[key]))
 	
