@@ -1,2 +1,12 @@
+Timer
 Node
+RichTextLabel
+Panel
+VBoxContainer
+MarginContainer
+Window
+GridContainer
+HFlowContainer
+Control
+CanvasLayer
 Camera2D

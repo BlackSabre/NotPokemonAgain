@@ -2,13 +2,22 @@ class_name Player extends CharacterBody2D
 
 @export var object_save_id: String
 
+
+
+@onready var scene_parent = get_node("../")
 @onready var camera: Camera2D = $Camera2D
+@onready var animation_tree: AnimationTree = $AnimationTree
 
 const SPEED = 190.0
 
 func _ready():
+	if scene_parent == null || !scene_parent.has_signal("on_scene_ready"):
+		print_debug("Parent scene, ", scene_parent.name, ", does not have on_scene_ready signal")
+		
 	enable_camera_smoothing()
-	set_physics_process(true)
+	enable_movement()
+	
+
 
 func _process(_delta):
 	if (Input.is_physical_key_pressed(KEY_Q)):
@@ -36,17 +45,17 @@ func move_and_animate_player() -> void:
 	velocity = direction * SPEED
 	
 	if (velocity == Vector2.ZERO):
-		$AnimationTree.get("parameters/playback").travel("idle")
+		animation_tree.get("parameters/playback").travel("idle")
 	else:
-		$AnimationTree.get("parameters/playback").travel("walk")
-		$AnimationTree.set("parameters/idle/blend_position", velocity)
-		$AnimationTree.set("parameters/walk/blend_position", velocity)
+		animation_tree.get("parameters/playback").travel("walk")
+		animation_tree.set("parameters/idle/blend_position", velocity)
+		animation_tree.set("parameters/walk/blend_position", velocity)
 	
 	move_and_slide()
 
 
-func capture_node_data():
-	#var player = self;6
+func capture_node_data() -> Dictionary:
+	#var player = self;
 	
 	var save_data_dictionary = {
 		global_position = var_to_str(self.global_position)
@@ -55,12 +64,12 @@ func capture_node_data():
 	return save_data_dictionary
 
 
-func restore_node_data(data: Dictionary):
+func restore_node_data(data: Dictionary) -> void:
 	#print_debug("player: ", data)
 	for key in data.keys():
 		self.set(key, str_to_var(data[key]))
-	
-	
+
+
 func enable_camera_smoothing() -> void:
 	camera.position_smoothing_enabled = true
 
@@ -68,5 +77,17 @@ func enable_camera_smoothing() -> void:
 func disable_camera_smoothing() -> void:
 	camera.position_smoothing_enabled = false
 
+
+func disable_movement():
+	velocity = Vector2.ZERO
+	animation_tree.get("parameters/playback").travel("idle")
+	set_physics_process(false)
+
+
+func enable_movement():
+	set_physics_process(true)
+
+
 func get_object_save_id():
 	return object_save_id
+

@@ -1,10 +1,13 @@
 extends Node
 
-var object_save_id = "PlayerData"
-
 @export var player_name: String = "DumbFace"
+
+var object_save_id = "PlayerData"
 var zone_to_spawn_in: ZoneEnums.Zone = ZoneEnums.Zone.A
 var load_in_zone: bool = false
+var current_route: Routes.Route = Routes.Route.UNKNOWN
+var last_world_position: Vector2
+var last_world_scene_path: String
 var stored_creatures: Array[CreatureBase] # creatures in player storage
 var available_creatures: Array[CreatureBase] # creatures in player inventory
 
@@ -31,9 +34,12 @@ func get_creature_at_index(index: int) -> CreatureBase:
 		return null
 
 
-func capture_node_data():
+func capture_node_data() -> Dictionary:
 	var save_data_dictionary: Dictionary = {
 		player_name = self.player_name,
+		current_route = self.current_route,
+		last_world_position = self.last_world_position,
+		last_world_scene_path = self.last_world_scene_path,
 		available_creatures = null
 	}
 	
@@ -67,12 +73,13 @@ func capture_node_data():
 	return save_data_dictionary
 
 
-func restore_node_data(data: Dictionary):
+func restore_node_data(data: Dictionary) -> void:
 	#print_debug("player_data: ", data)
-	var player_name_data = data["player_name"]
+	player_name = data["player_name"]
+	current_route = data["current_route"]
+	last_world_position = data["last_world_position"]
+	last_world_scene_path = data["last_world_scene_path"]
 	var creature_data: Dictionary = data["available_creatures"]
-	#print_debug("player_name: ", player_name_data)	
-	#print_debug("creature_data retrieved: ", creature_data)
 	
 	for creature_key in creature_data.keys():		
 		var loaded_creature: Dictionary = creature_data[creature_key]
@@ -90,5 +97,29 @@ func restore_node_data(data: Dictionary):
 		available_creatures[slot_index] = creature
 
 
-func get_object_save_id():
+func get_object_save_id() -> String:
 	return object_save_id
+	
+	
+func get_current_route() -> Routes.Route:
+	return current_route
+
+
+func get_last_world_position() -> Vector2:
+	return last_world_position
+
+
+func get_last_world_scene_path() -> String:
+	return last_world_scene_path
+
+
+func set_current_route(route: Routes.Route) -> void:
+	current_route = route
+
+
+func set_last_world_position(position: Vector2) -> void:
+	last_world_position = position
+
+
+func set_last_world_scene_path(scene_path: String) -> void:
+	last_world_scene_path = scene_path

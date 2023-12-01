@@ -1,14 +1,19 @@
 extends Node
 
+var battle_scene: PackedScene = preload("res://scenes/battle_scene.tscn")
 var random_creature: CreatureBase = null
 
 func _ready():
 	pass
 	#get_random_enemy_creature(Routes.Route.Route1)
 
-func start_random_encounter(route: Routes.Route):
+
+func setup_random_encounter(route: Routes.Route):
 	var creature_to_encounter = get_random_enemy_creature(route)
-	#print_debug("Generated ", creature_to_encounter.name, " in route ", Routes.Route.keys()[route])
+	PlayerData.set_current_route(route)
+	SceneLoader.load_world_scene_from_packed_scene(battle_scene)
+	BattleSceneController.start_random_encounter(creature_to_encounter)
+
 
 func get_random_enemy_creature(route: Routes.Route):
 	var enemies_in_route: Array[CreatureBase] = AllCreatures.get_all_creatures_in_route(route)

@@ -621,7 +621,6 @@ route_location = 2
 position = Vector2(48, -72)
 
 [node name="ScreenEffects" parent="." instance=ExtResource("6_h2q1i")]
-modulate = Color(1, 1, 1, 0)
 
 [node name="AreaTransitions" type="Node" parent="."]
 

@@ -2,6 +2,8 @@ extends Node2D
 
 @export var percent_chance_random_encounter: float = 5
 
+signal on_scene_ready
+
 @onready var tilemap = $TileMap
 @onready var screen_effects = $ScreenEffects
 @onready var player = $Player
@@ -20,7 +22,11 @@ func _ready():
 		player.disable_camera_smoothing()
 		spawn_player_in_zone()
 		PlayerData.load_in_zone = false
-	
+		
+	screen_effects.set_screen_overlay_visibility(true)
+	screen_effects.fade(false)
+	await screen_effects.finished_fading_in
+	on_scene_ready.emit()
 	
 
 func _process(_delta):
@@ -28,17 +34,19 @@ func _process(_delta):
 		handle_left_mouse_click()
 
 
-func _on_player_entered_tall_grass(route: Routes.Route):
+func _on_player_entered_tall_grass(route: Routes.Route, body):
 	var percent = randf()
 	if percent <= (percent_chance_random_encounter / 100):
-		#player.set_physics_process(false)
-		screen_effects.fade(true)
-		BattleSetupHandler.start_random_encounter(route)		
+		if "disable_movement" in body:
+			player.disable_movement()
+		#screen_effects.fade(true)
+		BattleSetupHandler.setup_random_encounter(route)		
 
 
 func handle_left_mouse_click():
-	var path = get_tree().current_scene.scene_file_path
-	print_debug("Path: ", path)
+	#var path = get_tree().current_scene.scene_file_path
+	#print_debug("Path: ", path)
+	pass
 
 
 func load_battle_scene():

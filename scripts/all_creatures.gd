@@ -45,8 +45,8 @@ func load_all_creatures() -> bool:
 
 
 func get_all_creatures_in_route(route: Routes.Route) -> Array[CreatureBase]:
-	var creatures_in_route: Array[CreatureBase]
-	print_debug(creatures_dict.size())
+	var creatures_in_route: Array[CreatureBase] = []
+	#print_debug("Creatures in dictionary: ", creatures_dict.size())
 	for creature in creatures_dict.values():
 		var route_locations_array: Array[RouteAndLevelRange] = creature.route_locations
 		#print_debug("route_locations_array: ", route_locations_array)
@@ -58,7 +58,7 @@ func get_all_creatures_in_route(route: Routes.Route) -> Array[CreatureBase]:
 				creatures_in_route.append(creature)
 				break;		
 	
-	var creature_list_string: String
+	var creature_list_string: String = ""
 	for creature in creatures_in_route:
 		if !creature_list_string.is_empty():
 			creature_list_string += ", " + creature.name

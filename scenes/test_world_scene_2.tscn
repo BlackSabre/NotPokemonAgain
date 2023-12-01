@@ -113,7 +113,6 @@ position = Vector2(73, 152)
 position = Vector2(-8, 56)
 
 [node name="ScreenEffects" parent="." instance=ExtResource("5_pdsqf")]
-modulate = Color(1, 1, 1, 0)
 
 [node name="AreaTransitions" type="Node" parent="."]
 

@@ -8,6 +8,8 @@ var file_name: String = "gameSave"
 var is_saving: bool = false
 var is_loading: bool = false
 
+signal finished_saving
+
 func save_game() -> bool:
 	print_debug("saving game")
 	if is_loading == true:
@@ -40,6 +42,7 @@ func save_game() -> bool:
 	
 	save_game_file.close()
 	is_saving = false
+	finished_saving.emit()
 	print_debug("Game successfully finished saving")	
 	return true
 
@@ -111,7 +114,7 @@ func add_currently_loaded_scene(game_data_dict: Dictionary) -> Dictionary:
 	var last_loaded_scene_dict = { "last_loaded_scene": last_loaded_scene_path }
 	game_data_dict.merge(last_loaded_scene_dict)
 	
-	print_debug("Scene path successfully added. Scene path: ", last_loaded_scene_path)
+	#print_debug("Scene path successfully added. Scene path: ", last_loaded_scene_path)
 		
 	return game_data_dict
 
