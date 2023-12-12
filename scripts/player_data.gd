@@ -34,6 +34,10 @@ func get_creature_at_index(index: int) -> CreatureBase:
 		return null
 
 
+func get_first_creature() -> CreatureBase:
+	return get_creature_at_index(0)
+
+
 func capture_node_data() -> Dictionary:
 	var save_data_dictionary: Dictionary = {
 		player_name = self.player_name,

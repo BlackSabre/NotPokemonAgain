@@ -12,7 +12,7 @@ config_version=5
 
 config/name="Not Pokemon Again"
 run/main_scene="res://scenes/test_world_scene.tscn"
-config/features=PackedStringArray("4.1", "Mobile")
+config/features=PackedStringArray("4.2", "Mobile")
 config/icon="res://icon.svg"
 
 [autoload]

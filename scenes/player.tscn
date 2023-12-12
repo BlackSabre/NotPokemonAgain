@@ -345,10 +345,12 @@ rotation = 1.5708
 shape = SubResource("CapsuleShape2D_4whd0")
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_cajoy")
+}
 tree_root = SubResource("AnimationNodeStateMachine_bmt62")
-anim_player = NodePath("../AnimationPlayer")
 advance_expression_base_node = NodePath("")
-active = true
+anim_player = NodePath("../AnimationPlayer")
 parameters/idle/blend_position = Vector2(-0.20074, 0.292604)
 parameters/walk/blend_position = Vector2(-0.106383, -0.18328)
 

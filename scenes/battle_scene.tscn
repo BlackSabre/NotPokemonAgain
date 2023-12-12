@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://dscmflwv60p3j"]
+[gd_scene load_steps=9 format=3 uid="uid://dscmflwv60p3j"]
 
 [ext_resource type="Script" path="res://scenes/battle_scene.gd" id="1_5vc4i"]
 [ext_resource type="Texture2D" uid="uid://bkmxhi65aub2v" path="res://art_assets/ui/panels/BattlePanel.png" id="2_ksjgo"]
 [ext_resource type="Script" path="res://scenes/battle_ui.gd" id="2_oy1ij"]
 [ext_resource type="Theme" uid="uid://oycg6p0wdu45" path="res://themes/test_theme.tres" id="3_0lh85"]
 [ext_resource type="PackedScene" uid="uid://du102hktb3db8" path="res://scenes/ui/health_bar.tscn" id="5_452y3"]
+[ext_resource type="Texture2D" uid="uid://beppp3gd0p8yn" path="res://icon.svg" id="5_ambuu"]
 [ext_resource type="PackedScene" uid="uid://day02r227adpu" path="res://scenes/screen_effects.tscn" id="6_v7oxy"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mgp02"]
@@ -28,7 +29,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.176471, 0.176471, 0.176471, 1)
 
-[node name="MainUI" type="Control" parent="."]
+[node name="BattleUI" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
 offset_left = -58.0
@@ -37,9 +38,9 @@ offset_right = -18.0
 offset_bottom = -5.0
 script = ExtResource("2_oy1ij")
 
-[node name="UICanvas" type="CanvasLayer" parent="MainUI"]
+[node name="UICanvas" type="CanvasLayer" parent="BattleUI"]
 
-[node name="PlayerDialogueAndOptionsPanel" type="Panel" parent="MainUI/UICanvas"]
+[node name="PlayerDialogueAndOptionsPanel" type="Panel" parent="BattleUI/UICanvas"]
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
@@ -50,7 +51,7 @@ grow_vertical = 0
 size_flags_vertical = 4
 theme_override_styles/panel = SubResource("StyleBoxTexture_mgp02")
 
-[node name="DialogueMarginContainer" type="MarginContainer" parent="MainUI/UICanvas/PlayerDialogueAndOptionsPanel"]
+[node name="DialogueMarginContainer" type="MarginContainer" parent="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -62,7 +63,7 @@ theme_override_constants/margin_top = 15
 theme_override_constants/margin_right = 15
 theme_override_constants/margin_bottom = 15
 
-[node name="RichTextLabel" type="RichTextLabel" parent="MainUI/UICanvas/PlayerDialogueAndOptionsPanel/DialogueMarginContainer"]
+[node name="RichTextLabel" type="RichTextLabel" parent="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/DialogueMarginContainer"]
 layout_mode = 2
 size_flags_vertical = 4
 theme_override_font_sizes/normal_font_size = 32
@@ -71,7 +72,7 @@ text = "[color=white]A wild your mom appears...[/color]	"
 fit_content = true
 context_menu_enabled = true
 
-[node name="PlayerOptionsMarginContainer" type="MarginContainer" parent="MainUI/UICanvas/PlayerDialogueAndOptionsPanel"]
+[node name="PlayerOptionsMarginContainer" type="MarginContainer" parent="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel"]
 clip_contents = true
 layout_mode = 1
 anchors_preset = 15
@@ -84,60 +85,49 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = -5
 theme_override_constants/margin_bottom = -5
 
-[node name="PlayerOptions" type="GridContainer" parent="MainUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer"]
+[node name="PlayerOptions" type="GridContainer" parent="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer"]
 layout_mode = 2
 theme_override_constants/h_separation = 5
 theme_override_constants/v_separation = 5
 columns = 2
 
-[node name="AttackButton" type="Button" parent="MainUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/PlayerOptions"]
-visible = false
-custom_minimum_size = Vector2(150, 83)
+[node name="AttackButton" type="Button" parent="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/PlayerOptions"]
+custom_minimum_size = Vector2(150, 76)
 layout_mode = 2
 theme = ExtResource("3_0lh85")
 text = "ATTACK"
 
-[node name="Items" type="Button" parent="MainUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/PlayerOptions"]
-visible = false
-custom_minimum_size = Vector2(150, 83)
+[node name="Items" type="Button" parent="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/PlayerOptions"]
+custom_minimum_size = Vector2(150, 76)
 layout_mode = 2
 theme = ExtResource("3_0lh85")
 theme_override_font_sizes/font_size = 20
 text = "ITEMS"
 
-[node name="Change" type="Button" parent="MainUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/PlayerOptions"]
-visible = false
-custom_minimum_size = Vector2(150, 83)
+[node name="Change" type="Button" parent="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/PlayerOptions"]
+custom_minimum_size = Vector2(150, 76)
 layout_mode = 2
 theme = ExtResource("3_0lh85")
 theme_override_font_sizes/font_size = 20
 text = "CHANGE"
 
-[node name="Run" type="Button" parent="MainUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/PlayerOptions"]
-visible = false
-custom_minimum_size = Vector2(150, 83)
+[node name="Run" type="Button" parent="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/PlayerOptions"]
+custom_minimum_size = Vector2(150, 76)
 layout_mode = 2
 theme = ExtResource("3_0lh85")
 theme_override_font_sizes/font_size = 20
 text = "RUN"
 
-[node name="PlayerSprite" type="ColorRect" parent="MainUI/UICanvas/PlayerDialogueAndOptionsPanel"]
-layout_mode = 0
-offset_left = 113.0
-offset_top = -203.0
-offset_right = 315.0
-offset_bottom = -1.0
-color = Color(0, 0.341176, 0.345098, 1)
+[node name="PlayerSprite" type="Sprite2D" parent="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel"]
+position = Vector2(918, -315)
+texture = ExtResource("5_ambuu")
 
-[node name="EnemySprite" type="ColorRect" parent="MainUI/UICanvas/PlayerDialogueAndOptionsPanel"]
-layout_mode = 0
-offset_left = 900.0
-offset_top = -369.0
-offset_right = 1102.0
-offset_bottom = -167.0
-color = Color(0.423529, 0.423529, 0.423529, 1)
+[node name="EnemySprite" type="Sprite2D" parent="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel"]
+position = Vector2(192, -172)
+texture = ExtResource("5_ambuu")
+offset = Vector2(0, 0.5)
 
-[node name="HealthBarEnemy" parent="MainUI/UICanvas" instance=ExtResource("5_452y3")]
+[node name="HealthBarEnemy" parent="BattleUI/UICanvas" instance=ExtResource("5_452y3")]
 anchors_preset = -1
 anchor_top = -0.00154321
 anchor_right = 0.0260417
@@ -150,7 +140,7 @@ value = 10.0
 tint_progress = Color(0, 0.678431, 0, 1)
 metadata/_edit_use_anchors_ = true
 
-[node name="HealthBarPlayer" parent="MainUI/UICanvas" instance=ExtResource("5_452y3")]
+[node name="HealthBarPlayer" parent="BattleUI/UICanvas" instance=ExtResource("5_452y3")]
 anchors_preset = -1
 anchor_top = -0.00154321
 anchor_right = 0.0260417
@@ -164,34 +154,13 @@ value = 10.0
 tint_progress = Color(0, 0.678431, 0, 1)
 metadata/_edit_use_anchors_ = true
 
-[node name="Panel" type="Panel" parent="MainUI/UICanvas"]
-offset_left = 52.0
-offset_top = 60.0
-offset_right = 1123.0
-offset_bottom = 359.0
-size_flags_vertical = 4
-size_flags_stretch_ratio = 0.0
-
-[node name="RichTextLabel" type="RichTextLabel" parent="MainUI/UICanvas/Panel"]
-layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -11.5
-offset_bottom = 11.5
-grow_horizontal = 2
-grow_vertical = 2
-text = "dhs fjkhasd kljfhljk sadhlkjfh kjlsdh fkljah fdh sajk dsfh fhd sjkafhds fkjsdhfkjdshak gfjhljkdsf jfdhlgkj fdsgjfhdlkjghdfjkgf  fgjkdhg hhgdfjlgsjk jfdlshglkjd  fdshgjkl gfshjlk fjhlsfd"
-fit_content = true
-
 [node name="ScreenEffects" parent="." instance=ExtResource("6_v7oxy")]
 visible = false
 
 [node name="Timers" type="Node" parent="."]
 
-[connection signal="on_enemy_health_changed" from="." to="MainUI/UICanvas/HealthBarEnemy" method="_on_battle_scene_on_enemy_health_changed"]
-[connection signal="pressed" from="MainUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/PlayerOptions/AttackButton" to="." method="_on_attack_button_pressed"]
-[connection signal="pressed" from="MainUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/PlayerOptions/Items" to="MainUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/PlayerOptions/Items" method="_on_pressed"]
-[connection signal="pressed" from="MainUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/PlayerOptions/Change" to="MainUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/PlayerOptions/Change" method="_on_pressed"]
-[connection signal="pressed" from="MainUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/PlayerOptions/Run" to="MainUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/PlayerOptions/Run" method="_on_pressed"]
+[connection signal="on_enemy_health_changed" from="." to="BattleUI/UICanvas/HealthBarEnemy" method="_on_battle_scene_on_enemy_health_changed"]
+[connection signal="pressed" from="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/PlayerOptions/AttackButton" to="." method="_on_attack_button_pressed"]
+[connection signal="pressed" from="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/PlayerOptions/Items" to="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/PlayerOptions/Items" method="_on_pressed"]
+[connection signal="pressed" from="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/PlayerOptions/Change" to="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/PlayerOptions/Change" method="_on_pressed"]
+[connection signal="pressed" from="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/PlayerOptions/Run" to="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/PlayerOptions/Run" method="_on_pressed"]

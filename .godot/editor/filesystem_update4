@@ -3,16 +3,11 @@ res://resources/creatures/pink_creature.tres
 res://resources/creatures/red_creature.tres
 res://themes/test_theme.tres
 res://tile_sets/general_tile_set.tres
+res://scenes/battle_scene.gd
 res://scenes/transition_zone.tscn
 res://scenes/player.tscn
 res://scenes/screen_effects.tscn
 res://scenes/test_world_scene.tscn
 res://scenes/test_world_scene_2.tscn
 res://scenes/tall_grass.tscn
-res://scenes/battle_scene.gd
-res://scenes/MainUI.gd
-res://scenes/screen_effects.gd
-res://scripts/battle_scene_controller.gd
-res://scenes/main_ui.gd
-res://resources/enums/routes.gd
 res://scenes/battle_ui.gd
