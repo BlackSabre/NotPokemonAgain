@@ -1,7 +1,7 @@
 class_name LevelRange extends Resource
 
-var min_allowed_level = 1
-var max_allowed_level = 99
+var min_allowed_level: int = 1
+var max_allowed_level: int = 99
 
 @export_range(1, 99) var min_level: int : 
 	set = set_min_level

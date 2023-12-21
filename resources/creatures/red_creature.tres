@@ -1,9 +1,10 @@
-[gd_resource type="Resource" script_class="CreatureBase" load_steps=7 format=3 uid="uid://du66kc6paenfd"]
+[gd_resource type="Resource" script_class="CreatureBase" load_steps=8 format=3 uid="uid://du66kc6paenfd"]
 
-[ext_resource type="Script" path="res://scripts/creature_base.gd" id="1_nwo6v"]
 [ext_resource type="Texture2D" uid="uid://b588w1choqlb2" path="res://art_assets/creatures/square_red.png" id="1_uf54k"]
+[ext_resource type="Resource" uid="uid://b4aac0jo51dqd" path="res://resources/creature_movesets/test_moveset.tres" id="2_24445"]
 [ext_resource type="Script" path="res://resources/level_range.gd" id="2_gmrsi"]
 [ext_resource type="Script" path="res://resources/route_and_level_range.gd" id="3_s17ep"]
+[ext_resource type="Script" path="res://scripts/resource_bases/creature_base.gd" id="4_mug83"]
 
 [sub_resource type="Resource" id="Resource_emmqw"]
 script = ExtResource("2_gmrsi")
@@ -16,7 +17,7 @@ route = 1
 level_range = SubResource("Resource_emmqw")
 
 [resource]
-script = ExtResource("1_nwo6v")
+script = ExtResource("4_mug83")
 id = "0002"
 in_game_id = "002"
 name = "Redman"
@@ -25,4 +26,7 @@ front_sprite = ExtResource("1_uf54k")
 base_attack = 4
 base_health = 200
 level = 3
+moveset = ExtResource("2_24445")
+current_health = 0
+is_dead = false
 route_locations = Array[ExtResource("3_s17ep")]([SubResource("Resource_pq47f")])

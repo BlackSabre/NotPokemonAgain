@@ -1,9 +1,10 @@
-[gd_resource type="Resource" script_class="CreatureBase" load_steps=7 format=3 uid="uid://cv7ipjvihadhu"]
+[gd_resource type="Resource" script_class="CreatureBase" load_steps=8 format=3 uid="uid://cv7ipjvihadhu"]
 
-[ext_resource type="Script" path="res://scripts/creature_base.gd" id="1_asqxp"]
 [ext_resource type="Texture2D" uid="uid://dbf2jje7ohamm" path="res://art_assets/creatures/square_pink.png" id="1_c6ul5"]
+[ext_resource type="Resource" uid="uid://b4aac0jo51dqd" path="res://resources/creature_movesets/test_moveset.tres" id="2_0mvqm"]
 [ext_resource type="Script" path="res://resources/level_range.gd" id="2_mqfw6"]
 [ext_resource type="Script" path="res://resources/route_and_level_range.gd" id="3_uop43"]
+[ext_resource type="Script" path="res://scripts/resource_bases/creature_base.gd" id="4_5l8yk"]
 
 [sub_resource type="Resource" id="Resource_hu243"]
 script = ExtResource("2_mqfw6")
@@ -16,7 +17,7 @@ route = 2
 level_range = SubResource("Resource_hu243")
 
 [resource]
-script = ExtResource("1_asqxp")
+script = ExtResource("4_5l8yk")
 id = "0001"
 in_game_id = "001"
 name = "Pinkman"
@@ -25,4 +26,7 @@ front_sprite = ExtResource("1_c6ul5")
 base_attack = 2
 base_health = 100
 level = 1
+moveset = ExtResource("2_0mvqm")
+current_health = 0
+is_dead = false
 route_locations = Array[ExtResource("3_uop43")]([SubResource("Resource_xge31")])

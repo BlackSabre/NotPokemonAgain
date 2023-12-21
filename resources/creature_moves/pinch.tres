@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="MoveBase" load_steps=2 format=3 uid="uid://3cgbdyia64ss"]
+
+[ext_resource type="Script" path="res://scripts/resource_bases/move_base.gd" id="1_f1lpr"]
+
+[resource]
+script = ExtResource("1_f1lpr")
+move_name = "Pinch"
+damage = -100.0

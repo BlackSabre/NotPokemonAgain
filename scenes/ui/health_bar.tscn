@@ -6,8 +6,10 @@
 [ext_resource type="Script" path="res://scenes/ui/health_bar.gd" id="3_aryva"]
 
 [node name="HealthBar" type="TextureProgressBar"]
-offset_right = 146.0
-offset_bottom = 14.0
+offset_left = 40.0
+offset_top = 16.0
+offset_right = 186.0
+offset_bottom = 30.0
 scale = Vector2(2.5, 2.5)
 max_value = 10.0
 step = 0.01
@@ -17,8 +19,11 @@ stretch_margin_right = 12
 texture_under = ExtResource("1_ireve")
 texture_progress = ExtResource("2_31a6s")
 script = ExtResource("3_aryva")
+green_colour = Color(0, 0.678431, 0, 1)
+yellow_colour = Color(1, 0.898039, 0, 1)
+red_colour = Color(0.705882, 0, 0.0745098, 1)
 
-[node name="HeartSprite" type="TextureRect" parent="."]
+[node name="HeartTextureRect" type="TextureRect" parent="."]
 layout_mode = 0
 offset_left = -15.2
 offset_top = -3.6

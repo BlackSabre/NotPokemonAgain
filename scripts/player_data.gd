@@ -2,7 +2,7 @@ extends Node
 
 @export var player_name: String = "DumbFace"
 
-var object_save_id = "PlayerData"
+var object_save_id: String = "PlayerData"
 var zone_to_spawn_in: ZoneEnums.Zone = ZoneEnums.Zone.A
 var load_in_zone: bool = false
 var current_route: Routes.Route = Routes.Route.UNKNOWN
@@ -11,10 +11,10 @@ var last_world_scene_path: String
 var stored_creatures: Array[CreatureBase] # creatures in player storage
 var available_creatures: Array[CreatureBase] # creatures in player inventory
 
-var tempCreature1 = preload("res://resources/creatures/pink_creature.tres")
-var tempCreature2 = preload("res://resources/creatures/red_creature.tres")
+var tempCreature1: CreatureBase = preload("res://resources/creatures/pink_creature.tres")
+var tempCreature2: CreatureBase = preload("res://resources/creatures/red_creature.tres")
 
-func _ready():
+func _ready() -> void:
 	# Allows this singletons data to be saved
 	add_to_group(Groups.get_string_from_enum(Groups.GroupEnum.SAVEABLE))
 	
@@ -22,9 +22,11 @@ func _ready():
 	
 	#for debugging & dev
 	if available_creatures.is_empty():
-		print_debug("Adding temp creatures")
+		#print_debug("Adding temp creatures")
 		available_creatures.append(tempCreature1)
+		tempCreature1.full_heal()
 		available_creatures.append(tempCreature2)
+		tempCreature2.full_heal()
 	
 	
 func get_creature_at_index(index: int) -> CreatureBase:
@@ -85,7 +87,8 @@ func restore_node_data(data: Dictionary) -> void:
 	last_world_scene_path = data["last_world_scene_path"]
 	var creature_data: Dictionary = data["available_creatures"]
 	
-	for creature_key in creature_data.keys():		
+	for creature_key: Variant in creature_data.keys():
+		print_debug(creature_key)
 		var loaded_creature: Dictionary = creature_data[creature_key]
 		#print_debug("loaded_creature: ", loaded_creature)
 		var creature: CreatureBase = CreatureBase.new()
@@ -94,7 +97,7 @@ func restore_node_data(data: Dictionary) -> void:
 		creature.id = creature_key
 		creature.name = loaded_creature["name"]
 		creature.nickname = loaded_creature["nickname"]
-		creature.front_sprite = load(loaded_creature["front_sprite"])
+		creature.front_sprite = load(str(loaded_creature["front_sprite"]))
 		creature.base_attack = loaded_creature["base_attack"]
 		creature.base_health = loaded_creature["base_health"]
 		creature.level = loaded_creature["level"]		

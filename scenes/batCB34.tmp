@@ -1,0 +1,256 @@
+[gd_scene load_steps=15 format=3 uid="uid://dscmflwv60p3j"]
+
+[ext_resource type="Script" path="res://scenes/battle_scene.gd" id="1_5vc4i"]
+[ext_resource type="Texture2D" uid="uid://bkmxhi65aub2v" path="res://art_assets/ui/panels/BattlePanel.png" id="2_ksjgo"]
+[ext_resource type="Script" path="res://scenes/battle_ui.gd" id="2_oy1ij"]
+[ext_resource type="Theme" uid="uid://oycg6p0wdu45" path="res://themes/test_theme.tres" id="3_0lh85"]
+[ext_resource type="Script" path="res://scripts/player_dialogue_and_options_panel.gd" id="4_oxs4i"]
+[ext_resource type="PackedScene" uid="uid://du102hktb3db8" path="res://scenes/ui/health_bar.tscn" id="5_452y3"]
+[ext_resource type="Texture2D" uid="uid://beppp3gd0p8yn" path="res://icon.svg" id="5_ambuu"]
+[ext_resource type="Script" path="res://scripts/ui/player_fight_buttons.gd" id="5_dsyyg"]
+[ext_resource type="PackedScene" uid="uid://day02r227adpu" path="res://scenes/screen_effects.tscn" id="6_v7oxy"]
+[ext_resource type="Script" path="res://scripts/ui/attack_buttons.gd" id="7_4n4ga"]
+[ext_resource type="Script" path="res://scripts/ui/move_button.gd" id="8_gost5"]
+[ext_resource type="FontFile" uid="uid://s61o0iymoa8w" path="res://art_assets/fonts/Minecraft.ttf" id="10_sv42w"]
+[ext_resource type="Script" path="res://scripts/creature_battle_ui.gd" id="12_t0b3a"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_mgp02"]
+texture = ExtResource("2_ksjgo")
+texture_margin_left = 5.0
+texture_margin_top = 5.0
+texture_margin_right = 5.0
+texture_margin_bottom = 5.0
+
+[node name="BattleScene" type="Node2D"]
+position = Vector2(58, 45)
+script = ExtResource("1_5vc4i")
+
+[node name="Background" type="CanvasLayer" parent="."]
+
+[node name="BackgroundColour" type="ColorRect" parent="Background"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.176471, 0.176471, 0.176471, 1)
+
+[node name="BattleUI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -58.0
+offset_top = -45.0
+offset_right = -18.0
+offset_bottom = -5.0
+script = ExtResource("2_oy1ij")
+
+[node name="UICanvas" type="CanvasLayer" parent="BattleUI"]
+
+[node name="PlayerDialogueAndOptionsPanel" type="Panel" parent="BattleUI/UICanvas"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -168.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxTexture_mgp02")
+script = ExtResource("4_oxs4i")
+
+[node name="DialogueMarginContainer" type="MarginContainer" parent="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="RichTextLabel" type="RichTextLabel" parent="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/DialogueMarginContainer"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "[color=white]A wild your mom appears...[/color]	"
+fit_content = true
+context_menu_enabled = true
+
+[node name="PlayerOptionsMarginContainer" type="MarginContainer" parent="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel"]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = -5
+theme_override_constants/margin_bottom = -5
+
+[node name="PlayerFightButtons" type="GridContainer" parent="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 5
+theme_override_constants/v_separation = 5
+columns = 2
+script = ExtResource("5_dsyyg")
+
+[node name="AttackButton" type="Button" parent="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/PlayerFightButtons"]
+custom_minimum_size = Vector2(150, 76)
+layout_mode = 2
+theme = ExtResource("3_0lh85")
+text = "ATTACK"
+
+[node name="Items" type="Button" parent="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/PlayerFightButtons"]
+custom_minimum_size = Vector2(150, 76)
+layout_mode = 2
+theme = ExtResource("3_0lh85")
+theme_override_font_sizes/font_size = 20
+text = "ITEMS"
+
+[node name="Change" type="Button" parent="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/PlayerFightButtons"]
+custom_minimum_size = Vector2(150, 76)
+layout_mode = 2
+theme = ExtResource("3_0lh85")
+theme_override_font_sizes/font_size = 20
+text = "CHANGE"
+
+[node name="Run" type="Button" parent="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/PlayerFightButtons"]
+custom_minimum_size = Vector2(150, 76)
+layout_mode = 2
+theme = ExtResource("3_0lh85")
+theme_override_font_sizes/font_size = 20
+text = "RUN"
+
+[node name="MoveButtons" type="GridContainer" parent="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer"]
+layout_mode = 2
+theme_override_constants/h_separation = 5
+theme_override_constants/v_separation = 5
+columns = 2
+script = ExtResource("7_4n4ga")
+
+[node name="Move1" type="Button" parent="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/MoveButtons"]
+custom_minimum_size = Vector2(150, 76)
+layout_mode = 2
+theme = ExtResource("3_0lh85")
+text = "MOVE 1"
+script = ExtResource("8_gost5")
+
+[node name="Move2" type="Button" parent="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/MoveButtons"]
+custom_minimum_size = Vector2(150, 76)
+layout_mode = 2
+theme = ExtResource("3_0lh85")
+theme_override_font_sizes/font_size = 20
+text = "MOVE 2"
+script = ExtResource("8_gost5")
+
+[node name="Move3" type="Button" parent="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/MoveButtons"]
+custom_minimum_size = Vector2(150, 76)
+layout_mode = 2
+theme = ExtResource("3_0lh85")
+theme_override_font_sizes/font_size = 20
+text = "MOVE 3"
+script = ExtResource("8_gost5")
+
+[node name="Move4" type="Button" parent="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/MoveButtons"]
+custom_minimum_size = Vector2(150, 76)
+layout_mode = 2
+theme = ExtResource("3_0lh85")
+theme_override_font_sizes/font_size = 20
+text = "MOVE 4"
+script = ExtResource("8_gost5")
+
+[node name="Player_Creature" type="Node" parent="BattleUI/UICanvas"]
+
+[node name="PlayerCreatureName" type="RichTextLabel" parent="BattleUI/UICanvas/Player_Creature"]
+offset_left = 161.0
+offset_top = 409.0
+offset_right = 1090.0
+offset_bottom = 449.0
+theme_override_fonts/normal_font = ExtResource("10_sv42w")
+theme_override_font_sizes/normal_font_size = 21
+bbcode_enabled = true
+text = "[right]Something mon with a really long name[/right]"
+autowrap_mode = 0
+
+[node name="HealthBarPlayer" parent="BattleUI/UICanvas/Player_Creature" instance=ExtResource("5_452y3")]
+anchors_preset = -1
+anchor_top = -0.00154321
+anchor_right = 0.0260417
+anchor_bottom = -0.00154321
+offset_left = 1089.0
+offset_top = 421.0
+offset_right = 1175.0
+offset_bottom = 438.0
+scale = Vector2(-2.5, 2.5)
+value = 10.0
+tint_progress = Color(0, 0.678431, 0, 1)
+
+[node name="PlayerCreatureLevel" type="RichTextLabel" parent="BattleUI/UICanvas/Player_Creature"]
+offset_left = 712.0
+offset_top = 435.0
+offset_right = 799.0
+offset_bottom = 460.0
+theme_override_fonts/normal_font = ExtResource("10_sv42w")
+bbcode_enabled = true
+text = "[right]Lvl ???[/right]"
+
+[node name="PlayerSprite" type="Sprite2D" parent="BattleUI/UICanvas/Player_Creature"]
+position = Vector2(192, 308)
+texture = ExtResource("5_ambuu")
+offset = Vector2(0, 0.5)
+
+[node name="Enemy_Creature" type="Node" parent="BattleUI/UICanvas"]
+script = ExtResource("12_t0b3a")
+
+[node name="EnemySprite" type="Sprite2D" parent="BattleUI/UICanvas/Enemy_Creature"]
+position = Vector2(918, 165)
+texture = ExtResource("5_ambuu")
+
+[node name="HealthBarEnemy" parent="BattleUI/UICanvas/Enemy_Creature" instance=ExtResource("5_452y3")]
+anchors_preset = -1
+anchor_top = -0.00154321
+anchor_right = 0.0260417
+anchor_bottom = -0.00154321
+offset_left = 58.0
+offset_top = 45.0
+offset_right = 144.0
+offset_bottom = 59.0
+value = 10.0
+tint_progress = Color(0, 0.678431, 0, 1)
+
+[node name="EnemyCreatureName" type="RichTextLabel" parent="BattleUI/UICanvas/Enemy_Creature"]
+offset_left = 57.0
+offset_top = 33.0
+offset_right = 1137.0
+offset_bottom = 73.0
+theme_override_fonts/normal_font = ExtResource("10_sv42w")
+theme_override_font_sizes/normal_font_size = 21
+text = "Something mon with a really long name"
+autowrap_mode = 0
+
+[node name="EnemyCreatureLevel" type="RichTextLabel" parent="BattleUI/UICanvas/Enemy_Creature"]
+offset_left = 350.0
+offset_top = 59.0
+offset_right = 437.0
+offset_bottom = 84.0
+theme_override_fonts/normal_font = ExtResource("10_sv42w")
+text = "Lvl ???"
+
+[node name="ScreenEffects" parent="." instance=ExtResource("6_v7oxy")]
+visible = false
+
+[node name="Timers" type="Node" parent="."]
+
+[connection signal="pressed" from="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/PlayerFightButtons/AttackButton" to="BattleUI" method="_on_attack_button_pressed"]
+[connection signal="pressed" from="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/PlayerFightButtons/Items" to="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/PlayerFightButtons/Items" method="_on_pressed"]
+[connection signal="pressed" from="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/PlayerFightButtons/Change" to="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/PlayerFightButtons/Change" method="_on_pressed"]
+[connection signal="pressed" from="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/PlayerFightButtons/Run" to="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/PlayerFightButtons/Run" method="_on_pressed"]
+[connection signal="pressed" from="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/MoveButtons/Move1" to="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/MoveButtons/Move1" method="_on_pressed"]
+[connection signal="pressed" from="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/MoveButtons/Move2" to="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/MoveButtons/Move2" method="_on_pressed"]
+[connection signal="pressed" from="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/MoveButtons/Move3" to="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/MoveButtons/Move3" method="_on_pressed"]
+[connection signal="pressed" from="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/MoveButtons/Move4" to="BattleUI/UICanvas/PlayerDialogueAndOptionsPanel/PlayerOptionsMarginContainer/MoveButtons/Move4" method="_on_pressed"]

@@ -17,7 +17,7 @@ enum WorldScene {
 
 func get_scene_from_enum(world_scene : WorldScene) -> PackedScene:
 	if world_scene_dict.has(world_scene):
-		return load(world_scene_dict[world_scene])
+		return load(str(world_scene_dict[world_scene]))
 	else:
 		return null
 

@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="MoveBase" load_steps=2 format=3 uid="uid://0omrda3an0xr"]
+
+[ext_resource type="Script" path="res://scripts/resource_bases/move_base.gd" id="1_7muit"]
+
+[resource]
+script = ExtResource("1_7muit")
+move_name = "Headbutt"
+damage = -500.0

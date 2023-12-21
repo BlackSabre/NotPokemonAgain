@@ -1,11 +1,13 @@
 extends Node
 
-var creatures_folder_directory = "res://resources/creatures/"
+var creatures_folder_directory: String = "res://resources/creatures/"
 var creatures_dict: Dictionary
 
-func _ready():
+func _ready() -> void:
 	#print_debug("loading all creatures")
 	var successfully_loaded_creatures: bool = load_all_creatures()
+	if !successfully_loaded_creatures:
+		print_debug("Failed to load creatures")
 	#print_debug("finished loading all creatures: Success?: ", successfully_loaded_creatures)
 	
 	
@@ -18,7 +20,7 @@ func load_all_creatures() -> bool:
 		printerr("Failed to get creatures in ", creatures_folder_directory, " or there are no creature_base resources available here")
 		successfully_loaded_all_creatures = false
 		
-	for creature_resource_name in creature_resources:
+	for creature_resource_name: String in creature_resources:
 		var creature: CreatureBase = load(creatures_folder_directory + "/" + creature_resource_name)
 		
 		if creature.id.is_empty():
@@ -47,7 +49,7 @@ func load_all_creatures() -> bool:
 func get_all_creatures_in_route(route: Routes.Route) -> Array[CreatureBase]:
 	var creatures_in_route: Array[CreatureBase] = []
 	#print_debug("Creatures in dictionary: ", creatures_dict.size())
-	for creature in creatures_dict.values():
+	for creature: CreatureBase in creatures_dict.values():
 		var route_locations_array: Array[RouteAndLevelRange] = creature.route_locations
 		#print_debug("route_locations_array: ", route_locations_array)
 		

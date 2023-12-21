@@ -1,10 +1,8 @@
 extends Node
 
-func _ready():
-	pass
 
-func load_world_scene_from_enum(world_scene_enum: WorldScenes.WorldScene):
-	var world_scene = WorldScenes.get_scene_from_enum(world_scene_enum)
+func load_world_scene_from_enum(world_scene_enum: WorldScenes.WorldScene) -> void:
+	var world_scene: PackedScene = WorldScenes.get_scene_from_enum(world_scene_enum)
 	
 	if world_scene == null:
 		printerr("Unable to load world scene using ", str(world_scene_enum))
@@ -12,7 +10,7 @@ func load_world_scene_from_enum(world_scene_enum: WorldScenes.WorldScene):
 	get_tree().change_scene_to_packed(world_scene)
 
 
-func load_world_scene_from_packed_scene(packed_scene: PackedScene):
+func load_world_scene_from_packed_scene(packed_scene: PackedScene) -> void:
 	if packed_scene == null:
 		printerr("Packed scene is null. Unable to load scene")
 		return
@@ -21,7 +19,7 @@ func load_world_scene_from_packed_scene(packed_scene: PackedScene):
 	#await SaveHandler.finished_saving
 	
 	
-	var fx = get_node("/root/TestWorldScene/ScreenEffects")
+	var fx: ScreenEffects = get_node("/root/TestWorldScene/ScreenEffects")
 	#var fx = $ScreenEffects
 	
 	if fx == null:
@@ -37,12 +35,11 @@ func load_world_scene_from_packed_scene(packed_scene: PackedScene):
 	#get_tree().change_scene_to_file("res://scenes/test_world_scene_2.tscn")
 
 
-func load_world_scene_from_path(scene_path: String):
+func load_world_scene_from_path(scene_path: String) -> void:
 	get_tree().change_scene_to_file(scene_path)
 
 
-func load_battle_scene():
+func load_battle_scene() -> void:
 	#await SaveHandler.finished_saving
 	#await ScreenEff.finished_fading_in
 	print_debug("Finished waiting for save")
-	pass

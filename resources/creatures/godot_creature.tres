@@ -1,7 +1,8 @@
-[gd_resource type="Resource" script_class="CreatureBase" load_steps=7 format=3 uid="uid://oikys01e0c1a"]
+[gd_resource type="Resource" script_class="CreatureBase" load_steps=8 format=3 uid="uid://oikys01e0c1a"]
 
-[ext_resource type="Script" path="res://scripts/creature_base.gd" id="1_1a823"]
+[ext_resource type="Script" path="res://scripts/resource_bases/creature_base.gd" id="1_1a823"]
 [ext_resource type="Texture2D" uid="uid://beppp3gd0p8yn" path="res://icon.svg" id="1_hawy2"]
+[ext_resource type="Resource" uid="uid://b4aac0jo51dqd" path="res://resources/creature_movesets/test_moveset.tres" id="2_6k3vy"]
 [ext_resource type="Script" path="res://resources/level_range.gd" id="2_jly5m"]
 [ext_resource type="Script" path="res://resources/route_and_level_range.gd" id="3_ynf2q"]
 
@@ -20,9 +21,12 @@ script = ExtResource("1_1a823")
 id = "0003"
 in_game_id = "003"
 name = "Godotmon"
-nickname = ""
+nickname = null
 front_sprite = ExtResource("1_hawy2")
 base_attack = 100
 base_health = 2000
 level = 55
+moveset = ExtResource("2_6k3vy")
+current_health = 0
+is_dead = false
 route_locations = Array[ExtResource("3_ynf2q")]([SubResource("Resource_glrcc")])
