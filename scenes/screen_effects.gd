@@ -1,6 +1,6 @@
-extends CanvasLayer
+class_name ScreenEffects extends CanvasLayer
 
-class_name ScreenEffects
+const CANVAS_CAMERA_PATH: String = "/root/BattleScene/BattleUI/UICanvas"
 
 signal finished_shaking()
 
@@ -11,7 +11,7 @@ signal finished_shaking()
 @onready var screen_colour_overlay: ColorRect = $ScreenColourOverlay
 
 # Shake settings
-@onready var canvas_camera: CanvasLayer = $"../BattleUI/UICanvas"
+var canvas_camera: CanvasLayer
 # How quickly to move through the noise
 @export var NOISE_SHAKE_SPEED: float = 30.0
 # Noise returns values in the range (-1, 1)
@@ -121,7 +121,9 @@ func fade_out() -> bool:
 	return true
 
 
-func shake_screen() -> void:	
+func shake_screen() -> void:
+	if canvas_camera == null:
+		canvas_camera = get_node("CANVAS_CAMERA_PATH")
 	shake_strength = NOISE_SHAKE_STRENGTH
 	is_shaking = true
 

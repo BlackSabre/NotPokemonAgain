@@ -36,7 +36,7 @@ func load_world_scene_from_packed_scene(packed_scene: PackedScene) -> void:
 
 
 func load_world_scene_from_path(scene_path: String) -> void:
-	get_tree().change_scene_to_file(scene_path)
+	get_tree().call_deferred("change_scene_to_file", scene_path)
 
 
 func load_battle_scene() -> void:

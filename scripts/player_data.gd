@@ -83,7 +83,7 @@ func restore_node_data(data: Dictionary) -> void:
 	#print_debug("player_data: ", data)
 	player_name = data["player_name"]
 	current_route = data["current_route"]
-	last_world_position = data["last_world_position"]
+	last_world_position = str_to_var(str(data["last_world_position"]))
 	last_world_scene_path = data["last_world_scene_path"]
 	var creature_data: Dictionary = data["available_creatures"]
 	
