@@ -123,7 +123,8 @@ func fade_out() -> bool:
 
 func shake_screen() -> void:
 	if canvas_camera == null:
-		canvas_camera = get_node("CANVAS_CAMERA_PATH")
+		canvas_camera = get_node(CANVAS_CAMERA_PATH)
+		
 	shake_strength = NOISE_SHAKE_STRENGTH
 	is_shaking = true
 

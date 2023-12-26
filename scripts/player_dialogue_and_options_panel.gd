@@ -13,7 +13,8 @@ var is_shrunk: bool = false
 
 
 func _ready() -> void:
-	battle_ui_node.connect("text_finished", _on_intro_text_finished)
+	#battle_ui_node.connect("text_finished", _on_intro_text_finished)
+	pass
 
 
 func _on_intro_text_finished() -> void:

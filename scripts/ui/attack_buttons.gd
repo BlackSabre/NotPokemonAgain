@@ -44,10 +44,10 @@ func show_move_buttons() -> void:
 func setup_move_buttons() -> void:
 	var moveset: CreatureMovesetBase = BattleSceneController.get_player_creature_moveset()	
 	
-	setup_move_button(move_1_button, moveset.move1)
-	setup_move_button(move_2_button, moveset.move2)
-	setup_move_button(move_3_button, moveset.move3)
-	setup_move_button(move_4_button, moveset.move4)
+	setup_move_button(move_1_button, moveset.move_1)
+	setup_move_button(move_2_button, moveset.move_2)
+	setup_move_button(move_3_button, moveset.move_3)
+	setup_move_button(move_4_button, moveset.move_4)
 
 
 func setup_move_button(button: MoveButton, move: MoveBase = null) -> void:	

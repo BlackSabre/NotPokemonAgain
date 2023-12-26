@@ -5,4 +5,4 @@
 [resource]
 script = ExtResource("1_f1lpr")
 move_name = "Pinch"
-damage = -100.0
+damage = -10

@@ -155,9 +155,6 @@ func add_all_save_nodes(game_data: Dictionary) -> Dictionary:
 
 func add_all_autoloads_data(_game_data: Array) -> void:
 	pass
-	
-	
-	
 
 
 # loads the objects in the scene based on their save_ids and the keys in data_dict

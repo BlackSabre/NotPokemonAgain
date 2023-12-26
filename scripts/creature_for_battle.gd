@@ -41,7 +41,7 @@ func setup_ui() -> void:
 func process_action(move: MoveBase) -> void:
 	var damage: float = move.damage
 	
-	process_damage(damage)
+	await process_damage(damage)
 	
 	#health_bar.update_health_visual()
 
@@ -54,7 +54,8 @@ func process_damage(damage: float) -> void:
 	
 	if new_health_value == 0:
 		var death_tween: Tween = create_tween()
-		death_tween.tween_property(creature_sprite, "position:y", 723, 1).set_trans(Tween.TRANS_CUBIC)
+		death_tween.tween_property(creature_sprite, "position:y", 770, 1).set_trans(Tween.TRANS_CUBIC)
+		await death_tween.finished
 
 
 func setup_ui_creature_default() -> void:

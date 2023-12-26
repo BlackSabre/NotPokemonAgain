@@ -1,32 +1,34 @@
 [gd_resource type="Resource" script_class="CreatureBase" load_steps=8 format=3 uid="uid://oikys01e0c1a"]
 
-[ext_resource type="Script" path="res://scripts/resource_bases/creature_base.gd" id="1_1a823"]
-[ext_resource type="Texture2D" uid="uid://beppp3gd0p8yn" path="res://icon.svg" id="1_hawy2"]
-[ext_resource type="Resource" uid="uid://b4aac0jo51dqd" path="res://resources/creature_movesets/test_moveset.tres" id="2_6k3vy"]
-[ext_resource type="Script" path="res://resources/level_range.gd" id="2_jly5m"]
-[ext_resource type="Script" path="res://resources/route_and_level_range.gd" id="3_ynf2q"]
+[ext_resource type="Texture2D" uid="uid://beppp3gd0p8yn" path="res://icon.svg" id="1_lutfr"]
+[ext_resource type="Resource" uid="uid://b4aac0jo51dqd" path="res://resources/creature_movesets/test_moveset.tres" id="2_g5sgd"]
+[ext_resource type="Script" path="res://resources/level_range.gd" id="3_gv6us"]
+[ext_resource type="Script" path="res://resources/route_and_level_range.gd" id="4_nvnt0"]
+[ext_resource type="Script" path="res://scripts/resource_bases/creature_base.gd" id="5_na1fb"]
 
 [sub_resource type="Resource" id="Resource_e7ea8"]
-script = ExtResource("2_jly5m")
+script = ExtResource("3_gv6us")
 min_level = 40
 max_level = 60
 
 [sub_resource type="Resource" id="Resource_glrcc"]
-script = ExtResource("3_ynf2q")
+script = ExtResource("4_nvnt0")
 route = 1
 level_range = SubResource("Resource_e7ea8")
 
 [resource]
-script = ExtResource("1_1a823")
+script = ExtResource("5_na1fb")
 id = "0003"
 in_game_id = "003"
 name = "Godotmon"
-nickname = null
-front_sprite = ExtResource("1_hawy2")
+nickname = ""
+front_sprite = ExtResource("1_lutfr")
 base_attack = 100
 base_health = 2000
 level = 55
-moveset = ExtResource("2_6k3vy")
+moveset = ExtResource("2_g5sgd")
+current_xp = 0
+base_xp_award = 500
 current_health = 0
 is_dead = false
-route_locations = Array[ExtResource("3_ynf2q")]([SubResource("Resource_glrcc")])
+route_locations = Array[ExtResource("4_nvnt0")]([SubResource("Resource_glrcc")])

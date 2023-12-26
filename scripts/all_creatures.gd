@@ -14,7 +14,9 @@ func _ready() -> void:
 func load_all_creatures() -> bool:
 	creatures_dict.clear()
 	var successfully_loaded_all_creatures: bool = true
-	var creature_resources: Array =  DirAccess.get_files_at(creatures_folder_directory)
+	var creature_resources: PackedStringArray =  DirAccess.get_files_at(creatures_folder_directory)
+	
+	print_debug("creature_resources number: ", str(creature_resources.size()))
 	
 	if creature_resources.is_empty():
 		printerr("Failed to get creatures in ", creatures_folder_directory, " or there are no creature_base resources available here")

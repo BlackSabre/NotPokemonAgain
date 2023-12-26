@@ -44,8 +44,8 @@ func capture_node_data() -> Dictionary:
 	var save_data_dictionary: Dictionary = {
 		player_name = self.player_name,
 		current_route = self.current_route,
-		last_world_position = self.last_world_position,
-		last_world_scene_path = self.last_world_scene_path,
+		#last_world_position = var_to_str(self.last_world_position),
+		#last_world_scene_path = self.last_world_scene_path,
 		available_creatures = null
 	}
 	
@@ -57,8 +57,52 @@ func capture_node_data() -> Dictionary:
 	
 	var index_of_creature: int = -1
 	
-	for creature in available_creatures:
+	for creature: CreatureBase in available_creatures:
 		index_of_creature += 1
+		
+		var move_1_dict: Dictionary = {}
+		var move_2_dict: Dictionary = {}
+		var move_3_dict: Dictionary = {}
+		var move_4_dict: Dictionary = {}
+		var creature_moveset_dict: Dictionary = {}
+		
+		if creature.moveset != null:
+			var move_1: MoveBase = creature.moveset.move_1
+			if move_1 != null:
+				move_1_dict = {
+					move_name = move_1.move_name,
+					damage = move_1.damage
+				}
+			
+			
+			var move_2: MoveBase = creature.moveset.move_2
+			if move_2 != null:
+				move_2_dict = {
+					move_name = move_2.move_name,
+					damage = move_2.damage
+				}
+			
+			var move_3: MoveBase = creature.moveset.move_3
+			if move_3 != null:
+				move_3_dict = {
+					move_name = move_3.move_name,
+					damage = move_3.damage
+				}
+			
+			var move_4: MoveBase = creature.moveset.move_4
+			if move_4 != null:
+				move_4_dict = {
+					move_name = move_4.move_name,
+					damage = move_4.damage
+				}
+		
+			creature_moveset_dict = {
+				move_1 = move_1_dict,
+				move_2 = move_2_dict,
+				move_3 = move_3_dict,
+				move_4 = move_4_dict
+			}
+		
 		var creature_data_dict: Dictionary = {
 			name = creature.name,
 			nickname = creature.nickname,
@@ -66,6 +110,8 @@ func capture_node_data() -> Dictionary:
 			base_attack = creature.base_attack,
 			base_health = creature.base_health,
 			level = creature.level,
+			current_xp = creature.current_xp,
+			moveset = creature_moveset_dict,
 			slot_index = index_of_creature
 		}
 		
@@ -83,12 +129,12 @@ func restore_node_data(data: Dictionary) -> void:
 	#print_debug("player_data: ", data)
 	player_name = data["player_name"]
 	current_route = data["current_route"]
-	last_world_position = str_to_var(str(data["last_world_position"]))
-	last_world_scene_path = data["last_world_scene_path"]
+	#last_world_position = str_to_var(data["last_world_position"])
+	#last_world_scene_path = data["last_world_scene_path"]
 	var creature_data: Dictionary = data["available_creatures"]
 	
-	for creature_key: Variant in creature_data.keys():
-		print_debug(creature_key)
+	for creature_key: String in creature_data.keys():
+		#print_debug(creature_key)
 		var loaded_creature: Dictionary = creature_data[creature_key]
 		#print_debug("loaded_creature: ", loaded_creature)
 		var creature: CreatureBase = CreatureBase.new()
@@ -100,8 +146,28 @@ func restore_node_data(data: Dictionary) -> void:
 		creature.front_sprite = load(str(loaded_creature["front_sprite"]))
 		creature.base_attack = loaded_creature["base_attack"]
 		creature.base_health = loaded_creature["base_health"]
-		creature.level = loaded_creature["level"]		
+		creature.level = loaded_creature["level"]
+		creature.current_xp = loaded_creature["current_xp"]
 		available_creatures[slot_index] = creature
+		
+		var moveset_dict: Dictionary = loaded_creature["moveset"]
+		var creature_moveset: CreatureMovesetBase
+		
+		if moveset_dict != null:
+			print_debug("moveset: ", moveset_dict)
+			var move_1_dict: Dictionary = moveset_dict["move_2"]
+			if !move_1_dict.is_empty():				
+				print_debug("move_1_dict: ", move_1_dict)
+				var move_1: MoveBase = MoveBase.new()
+				move_1.move_name = move_1_dict["move_name"]
+				print_debug("move_1.move_name: ", move_1.move_name)
+				move_1.damage = int(move_1_dict["damage"])
+				print_debug("move_1.damage: ", move_1.damage)
+			
+
+		for move_key in moveset_dict:
+			var move_dict: Dictionary = moveset_dict[move_key]
+			print_debug("Loaded move: ", move_dict)
 
 
 func get_object_save_id() -> String:

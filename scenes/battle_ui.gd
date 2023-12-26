@@ -2,7 +2,7 @@ class_name BattleUI extends Control
 
 signal continue_text_primary_action
 signal text_finished
-signal on_creature_attack(attacker: CreatureBase, move: MoveBase, target: CreatureBase)
+signal on_creature_attack(attacker: CreatureForBattle, move: MoveBase, target: CreatureForBattle)
 
 @onready var screen_effects: ScreenEffects = $"../ScreenEffects"
 @onready var player_creature_node: CreatureForBattle = $UICanvas/PlayerCreature
@@ -26,29 +26,30 @@ var skip_current_text: bool = false
 var skip_intro_text: bool = true
 
 func _ready() -> void:
-	var enemy_creature: CreatureBase = BattleSceneController.get_enemy_creature()
+	var enemy_creature: CreatureForBattle = BattleSceneController.get_enemy_creature_node()
 	
 	player_dialogue_and_options_panel.connect("on_shrink_finished", _on_player_dialogue_and_options_panel_shrunk)	
 	player_dialogue_and_options_panel.on_expand_finished.connect(_on_player_dialogue_and_options_panel_expanded)
 	move_buttons.any_move_button_pressed.connect(_on_move_button_pressed)
 	
-	setup_creatures_ui()
-	
+	setup_creatures_ui()	
 	
 	var intro_dialogue_and_action_array: Array[DialogueAndActions] = []
 	var dialogue_and_action_1: DialogueAndActions = DialogueAndActions.new()
 	var dialogue_and_action_2: DialogueAndActions = DialogueAndActions.new()
-	dialogue_and_action_1.message = "A wild " + enemy_creature.name + " has appeared before you!"
-	dialogue_and_action_2.message = "Now to carry on"
+	dialogue_and_action_1.message = "A wild " + enemy_creature.creature.name + " has appeared before you!"
+	dialogue_and_action_2.message = "It doesn't look like it's here to chat..."
+	#dialogue_and_action_2.add_event(finish_text_writing)
 	intro_dialogue_and_action_array.append(dialogue_and_action_1)
 	intro_dialogue_and_action_array.append(dialogue_and_action_2)
 	
 	if !skip_intro_text:
-		display_rich_text(dialog_text_label, intro_dialogue_and_action_array)
+		await display_rich_text(dialog_text_label, intro_dialogue_and_action_array)
+		finish_text_writing()
 	else:
 		dialog_text_label.clear()
-		text_finished.emit()
-
+		finish_text_writing()
+	
 	connect_signals_to_battle_scene_controller()
 
 
@@ -58,6 +59,11 @@ func _input(event: InputEvent) -> void:
 			skip_current_text = true
 		else:	
 			continue_text_primary_action.emit()
+
+
+func finish_text_writing() -> void:
+	dialog_text_label.clear()
+	player_dialogue_and_options_panel.shrink_dialogue()	
 
 
 func display_rich_text(text_container: RichTextLabel, dialogue_and_action_array: Array[DialogueAndActions]) -> void:
@@ -84,8 +90,7 @@ func display_rich_text(text_container: RichTextLabel, dialogue_and_action_array:
 			await get_tree().create_timer(time_per_character).timeout		
 			
 		text_container.text = dialogue_and_action.message
-		is_writing_text = false
-		
+		is_writing_text = false		
 		
 		dialogue_and_action.run_events()
 		
@@ -121,10 +126,10 @@ func setup_creatures_ui() -> void:
 
 
 func _on_move_button_pressed(move: MoveBase) -> void:
-	var player_creature: CreatureBase = BattleSceneController.get_player_creature()
-	var target_creature: CreatureBase = BattleSceneController.get_enemy_creature()
+	var player_creature: CreatureForBattle = BattleSceneController.get_player_creature_node()
+	var target_creature: CreatureForBattle = BattleSceneController.get_enemy_creature_node()
 	
-	#print_debug("Player creature ", player_creature.name, " is attacking ", target_creature.name, " with the move ", move.move_name)
+	print_debug("Player creature ", player_creature.creature.name, " is attacking ", target_creature.creature.name, " with the move ", move.move_name)
 	
 	move_buttons.hide_move_buttons()
 	player_dialogue_and_options_panel.expand_dialogue()
@@ -134,27 +139,46 @@ func _on_move_button_pressed(move: MoveBase) -> void:
 	var dialogue_and_action_array: Array[DialogueAndActions] = []
 	var dialogue_and_action: DialogueAndActions = DialogueAndActions.new()	
 	
-	dialogue_and_action.message = player_creature.name + " uses " + move.move_name + " on " + target_creature.name
+	dialogue_and_action.message = player_creature.creature.name + " uses " + move.move_name + " on " + target_creature.creature.name
 	#dialogue_and_action.add_event(func(): on_creature_attack.emit(player_creature, move, target_creature))
 	#dialogue_and_action.add_event(func(): screen_effects.shake_screen())
 	dialogue_and_action.add_event(func() -> void: await process_attack(player_creature, move, target_creature))
 	dialogue_and_action_array.append(dialogue_and_action)
 	display_rich_text(dialog_text_label, dialogue_and_action_array)
 	
-	await text_finished
+	
 
 
-func process_attack(player_creature: CreatureBase, move: MoveBase, target_creature: CreatureBase) -> void:
+func process_attack(player_creature: CreatureForBattle, move: MoveBase, target_creature: CreatureForBattle) -> void:
 	on_creature_attack.emit(player_creature, move, target_creature)
-	enemy_creature_node.process_damage(move.damage)
 	screen_effects.shake_screen()
-	await enemy_creature_node.finished_animating
+	target_creature.process_action(move)
 	await screen_effects.finished_shaking
+	await enemy_creature_node.finished_animating
 	
 	if enemy_creature_node.is_dead():
 		print_debug("the freaking thing is dead! Display a message")
+		var dialogue_and_action_array: Array[DialogueAndActions] = []
+		var dialogue_and_action: DialogueAndActions = DialogueAndActions.new()
+		dialogue_and_action.message = target_creature.creature.name + " has been utterly defeated."
+		dialogue_and_action_array.append(dialogue_and_action)
+		display_rich_text(dialog_text_label, dialogue_and_action_array)
 	
-	print_debug("done processing attack")
+	
+	text_finished.emit()
+	
+	do_enemy_turn()
+
+func do_enemy_turn() -> void:
+	var enemy_moveset: CreatureMovesetBase = enemy_creature_node.creature.moveset
+	var valid_moves: Array[MoveBase] = enemy_moveset.get_valid_moves()	
+	var enemy_move: MoveBase = valid_moves.pick_random()
+	
+	var dialogue_and_action_array: Array[DialogueAndActions] = []
+	var dialogue_and_action: DialogueAndActions = DialogueAndActions.new()
+	dialogue_and_action.message = player_creature_node.creature.name + " is being attacked"
+	dialogue_and_action_array.append(dialogue_and_action)	
+	display_rich_text(dialog_text_label, dialogue_and_action_array)
 
 
 # Since the autoload script battle_scene_controller is instantiated before this node, 
