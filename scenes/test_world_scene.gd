@@ -8,11 +8,18 @@ signal on_scene_ready
 @onready var screen_effects: ScreenEffects = $ScreenEffects
 @onready var player: Player = $Player
 
+const TIME_UNTIL_RANDOM_ENCOUNTERS_CAN_START: float = 0.5
+
 var player_spawn_position: Vector2
 var player_spawn_zone: ZoneEnums.Zone
 var tall_grass_tiles : Array
+var ignore_random_encounters: bool = true
+
+func _init():
+	ignore_random_encounters = true
 
 func _ready() -> void:
+	SceneLoader.finished_scene_load()
 	tall_grass_tiles = get_tree().get_nodes_in_group("Tall Grass")	
 	
 	for tile: TallGrass in tall_grass_tiles:
@@ -21,12 +28,17 @@ func _ready() -> void:
 	if PlayerData.load_in_zone:
 		player.disable_camera_smoothing()
 		spawn_player_in_zone()
-		PlayerData.load_in_zone = false
+		PlayerData.load_in_zone = false		
 		
 	screen_effects.set_screen_overlay_visibility(true)
 	screen_effects.fade(false)
-	await screen_effects.finished_fading_in
+	if screen_effects.is_fading:
+		await screen_effects.finished_fading_out
 	on_scene_ready.emit()
+	player.set_physics_process(true)
+	await get_tree().create_timer(TIME_UNTIL_RANDOM_ENCOUNTERS_CAN_START).timeout
+	print_debug("now lets show some encounters")
+	ignore_random_encounters = false
 	
 
 func _process(_delta: float) -> void:
@@ -35,6 +47,9 @@ func _process(_delta: float) -> void:
 
 
 func _on_player_entered_tall_grass(route: Routes.Route, body: Node2D) -> void:
+	if ignore_random_encounters:
+		return
+		
 	var percent: float = randf()
 	if percent <= (percent_chance_random_encounter / 100):
 		if "disable_movement" in body:

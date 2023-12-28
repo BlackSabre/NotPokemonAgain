@@ -23,9 +23,10 @@ func _ready() -> void:
 	#for debugging & dev
 	if available_creatures.is_empty():
 		#print_debug("Adding temp creatures")
-		available_creatures.append(tempCreature1)
+		var doop1 = tempCreature1.duplicate()
+		available_creatures.append(doop1)
 		tempCreature1.full_heal()
-		available_creatures.append(tempCreature2)
+		available_creatures.append(tempCreature2.duplicate())
 		tempCreature2.full_heal()
 	
 	

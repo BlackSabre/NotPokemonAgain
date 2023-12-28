@@ -19,7 +19,7 @@ func set_creature_and_ui(new_creature: CreatureBase, new_is_player_creature: boo
 		return
 	
 	self.is_player_creature = new_is_player_creature
-	creature = new_creature
+	self.creature = new_creature
 	setup_ui()
 	connect_signals()
 

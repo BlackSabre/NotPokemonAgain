@@ -28,7 +28,8 @@ func get_player_creature_moveset() -> CreatureMovesetBase:
 
 func get_player_creature() -> CreatureBase:
 	if player_creature.creature == null:
-		player_creature.set_creature_and_ui(PlayerData.get_first_creature())
+		player_creature.set_creature_and_ui(PlayerData.get_first_creature(), true)
+		player_creature.creature.full_heal()
 		
 	return player_creature.creature
 
@@ -71,8 +72,10 @@ func generate_random_route() -> Routes.Route:
 
 
 func _creature_attack(_attacker: CreatureForBattle, move: MoveBase, target: CreatureForBattle) -> void:
+	print_debug(_attacker.creature.name, " attacks ", target.creature.name, " for ", str(move.damage), " damage")
 	var damage: int = move.damage	
 	target.creature.update_health(damage)
+	print(target.creature.name, " now has ", str(target.creature.current_health), " health")
 	
 	if target.creature.is_dead:
 		print_debug("Target has died")

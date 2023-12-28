@@ -80,7 +80,7 @@ func fade(fade_in_param: bool) -> bool:
 	if is_fading:
 		return false
 		
-	if (fade_in_param):
+	if fade_in_param:
 		return await fade_in()
 	else:
 		return await fade_out()

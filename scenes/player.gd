@@ -1,5 +1,7 @@
 class_name Player extends CharacterBody2D
 
+#signal on_player_ready
+
 @export var object_save_id: String
 
 
@@ -16,6 +18,7 @@ func _ready() -> void:
 		
 	enable_camera_smoothing()
 	enable_movement()
+	#on_player_ready.emit()
 	
 
 

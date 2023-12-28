@@ -10,9 +10,4 @@ res://scenes/test_world_scene_2.tscn
 res://scenes/tall_grass.tscn
 res://scenes/ui/health_bar.tscn
 res://scenes/battle_scene.tscn
-res://scripts/player_data.gd
-res://resources/creature_movesets/test_moveset.tres
-res://resources/creatures/godot_creature.tres
 res://scenes/battle_ui.gd
-res://scripts/resource_bases/creature_base.gd
-res://scripts/battle_scene_controller.gd

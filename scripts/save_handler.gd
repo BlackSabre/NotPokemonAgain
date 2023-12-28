@@ -57,12 +57,52 @@ func load_game() -> bool:
 	
 	is_loading = true
 	var load_path: String = BASE_DIRECTORY + DIRECTORY + "/" + file_name + FILE_EXTENSION
-	var save_file: FileAccess = FileAccess.open(load_path, FileAccess.READ)
+	var save_file: FileAccess = get_and_check_save_file(load_path)
 	
 	if save_file == null:
-		save_file.close()
-		printerr("Error loading save game at: ", load_path)
-		printerr("FileAccess open error: ", FileAccess.get_open_error())
+		return false
+	
+	# parse json and check for errors
+	var json_data: JSON = JSON.new()	
+	var json_parse_result: Error = json_data.parse(save_file.get_as_text())
+	save_file.close()
+	
+	if json_parse_result != OK:
+		printerr("Failed to parse json in save file. Error code: ", json_parse_result)
+		return false
+	
+	var save_data_dict: Dictionary = json_data.get_data()	
+	
+	# load scene first
+	var load_scene: PackedScene
+	
+	if save_data_dict.has("last_loaded_scene"):
+		var scene_path: String = save_data_dict["last_loaded_scene"]
+		print_debug("scene_path: ", scene_path)
+		load_scene = load(scene_path)
+	else:
+		printerr("No scene found in save file.")
+	
+	SceneLoader.load_world_scene_from_packed_scene(load_scene)
+	
+	# need to defer the method call to load scene data as scene isn't available right
+	# after change_scene_to_packed
+	call_deferred("load_scene_objects", save_data_dict)
+	return true
+
+
+func load_last_scene_and_player_position() -> bool:
+	print_debug("loading last scene and player position")
+	
+	if is_saving == true:
+		printerr("Game is currently saving. Cannot load game.")
+		return false
+	
+	is_loading = true
+	var load_path: String = BASE_DIRECTORY + DIRECTORY + "/" + file_name + FILE_EXTENSION
+	var save_file: FileAccess = get_and_check_save_file(load_path)
+	
+	if save_file == null:
 		return false
 	
 	# parse json and check for errors
@@ -76,30 +116,30 @@ func load_game() -> bool:
 	
 	var save_data_dict: Dictionary = json_data.get_data()
 	
-	#print_debug("save_data: ", save_data_dict)
-	
-	# put all values in save_data in data dictionary	
-#	var data_dict: Dictionary
-#
-#	for data in save_data_dict:
-#		print_debug("data loading: ", data)
-		#data_dict.merge(data)
-		
 	# load scene first
 	var load_scene: PackedScene
 	
 	if save_data_dict.has("last_loaded_scene"):
 		var scene_path: String = save_data_dict["last_loaded_scene"]
+		var player_dict: Dictionary = save_data_dict["player"]
+		var player_position: Vector2
+		
+		if player_dict.has("global_position"):
+			player_position = str_to_var(player_dict["global_position"])
+		else:
+			print_debug("Player global position not found. Defaulting to Vector.zero ")
+			player_position = Vector2.ZERO
+			
 		print_debug("scene_path: ", scene_path)
-		load_scene = load(scene_path)
+		print_debug("player_pos: ", player_position)
+		load_scene = ResourceLoader.load(scene_path)
+		#SceneLoader.load_world_scene_from_packed_scene(load_scene)
+		SceneLoader.load_packed_scene_2(load_scene, load_player_position, player_position)
+		#call_deferred("load_player_position", player_position)
+		print_debug("load_scene: ", load_scene.get_state())
 	else:
-		printerr("No scene found in save file.")	
+		printerr("No scene found in save file.")
 	
-	SceneLoader.load_world_scene_from_packed_scene(load_scene)
-	
-	# need to defer the method call to load scene data as scene isn't available right
-	# after change_scene_to_packed
-	call_deferred("load_scene_objects", save_data_dict)
 	return true
 
 # Gets the path of the currently loaded scene and adds it to game_data with the key
@@ -180,6 +220,7 @@ func load_scene_objects(data_dict: Dictionary) -> void:
 	is_loading = false
 	print_debug("Game successfully finished loading")	
 
+
 # Validates the path at base_directory/directory. If directory does not exist, then this also 
 # attempts to create it.
 # If successfully validated/created, returns true
@@ -203,3 +244,27 @@ func check_and_create_directory_for_save(base_directory: String, directory: Stri
 	return true
 
 
+func get_and_check_save_file(load_path: String) -> FileAccess:
+	var save_file: FileAccess = FileAccess.open(load_path, FileAccess.READ)
+	
+	if save_file == null:
+		save_file.close()
+		printerr("Error loading save game at: ", load_path)
+		printerr("FileAccess open error: ", FileAccess.get_open_error())
+		return null
+	
+	return save_file
+
+
+func load_player_position(player_position: Vector2) -> void:
+	var player_node_array: Array[Node] = get_tree().get_nodes_in_group(Groups.get_string_from_enum(Groups.GroupEnum.PLAYER))	
+	
+	if player_node_array == null || player_node_array.size() == 0:
+		printerr("Could not find player node for scene.")
+		return
+	
+	var player_node = player_node_array[0]
+	player_node.global_position = player_position	
+	
+	is_loading = false
+	print_debug("Last player position has successfully completed")
